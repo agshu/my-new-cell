@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/my-new-cell/static/css/main.f3782ee7.css",
-    "main.js": "/my-new-cell/static/js/main.38858382.js",
+    "main.css": "/my-new-cell/static/css/main.6c43c5c4.css",
+    "main.js": "/my-new-cell/static/js/main.8e7b89f8.js",
     "static/media/stemcell.gltf": "/my-new-cell/static/media/stemcell.df9a9c4486fbefc05848.gltf",
     "static/media/targets.mind": "/my-new-cell/static/media/targets.dca3ac67553f0a9fd335.mind",
     "static/media/bg.svg": "/my-new-cell/static/media/bg.e1bbfd56d01934bd09bd.svg",
     "index.html": "/my-new-cell/index.html",
     "static/media/arrow-light.svg": "/my-new-cell/static/media/arrow-light.421fa896b8ab749161ef.svg",
     "static/media/arrow.svg": "/my-new-cell/static/media/arrow.ccbe006223bd34fd4f4f.svg",
-    "main.f3782ee7.css.map": "/my-new-cell/static/css/main.f3782ee7.css.map",
-    "main.38858382.js.map": "/my-new-cell/static/js/main.38858382.js.map"
+    "main.6c43c5c4.css.map": "/my-new-cell/static/css/main.6c43c5c4.css.map",
+    "main.8e7b89f8.js.map": "/my-new-cell/static/js/main.8e7b89f8.js.map"
   },
   "entrypoints": [
-    "static/css/main.f3782ee7.css",
-    "static/js/main.38858382.js"
+    "static/css/main.6c43c5c4.css",
+    "static/js/main.8e7b89f8.js"
   ]
 }
