@@ -1,5 +1,4 @@
 import React from "react";
-import Register from "../register";
 import LogIn from "../login";
 
 const Startpage = () => {
@@ -10,7 +9,6 @@ const Startpage = () => {
         <h1 className="startpage-h1">THE CELL</h1>
         <hr className="startpage-hr" />
       </section>
-      <Register />
       <LogIn />
     </div>
   );

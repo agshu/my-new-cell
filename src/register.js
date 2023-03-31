@@ -1,11 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import { useState } from "react";
-import { ref, set, update, child, get } from "firebase/database";
+import { ref, set } from "firebase/database";
 import { database, auth } from "./firebase";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const Register = () => {
   async function writeUserData(name, userID) {

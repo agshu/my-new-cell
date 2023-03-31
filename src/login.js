@@ -34,7 +34,7 @@ const LogIn = () => {
         // Signed in
         const user = userCredential.user;
         const userID = user.uid;
-        updateUserData(userID, { date: new Date() });
+        updateUserData(userID, { date: new Date(), timeperiod: Date.now() });
         navigate("/info");
       })
       .catch((error) => {

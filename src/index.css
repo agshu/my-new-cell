@@ -74,7 +74,7 @@ h1 {
 }
 
 .form {
-  height: 100vh;
+  height: 80vh;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -121,11 +121,11 @@ h1 {
 }
 
 .visible {
-  visibility: visible;
+  display: block;
 }
 
 .hidden {
-  visibility: hidden;
+  display: none;
 }
 
 /* iNFO PAGE */
@@ -148,4 +148,37 @@ h1 {
 .ar-page {
   height: 100vh;
   width: 100vw;
+}
+
+.info-text {
+  background-color: white;
+  padding: 10px 20px 10px 20px;
+  font-weight: bold;
+  font-size: 24px;
+  border-radius: 15px;
+}
+
+/* VIDEO COMP */
+
+.video-comp {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  object-fit: contain;
+  background-color: black;
+}
+
+.video-btn {
+  font-family: Nunito;
+  position: absolute;
+  align-self: center;
+  z-index: 3;
+  background-color: white;
+  border-style: none;
+  padding: 10px 20px 10px 20px;
+  font-weight: bold;
+  font-size: 24px;
+  border-radius: 15px;
 }
