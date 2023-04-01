@@ -4,6 +4,7 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import * as THREE from "three";
 import target from "../assets/target.mind";
 import cell from "../assets/stemcell.gltf";
+import plant from "../assets/plan.zip";
 import Video from "../components/video";
 import video1 from "../assets/toastmaster.mp4";
 

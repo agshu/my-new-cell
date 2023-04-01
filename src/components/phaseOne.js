@@ -25,8 +25,7 @@ const loadGTLF = (path) => {
 //   });
 // };
 
-const PhaseOne = (videoState) => {
-  console.log(videoState);
+const PhaseOne = () => {
   const containerRef = useRef(null);
   const [showText, setShowText] = useState(false); // on click text in model
   //const [activeVideo, setActiveVideo] = useState(true); // video to be shown or not
@@ -99,9 +98,7 @@ const PhaseOne = (videoState) => {
   return (
     <div>
       <Video video={video1}></Video>
-      <div className="ar-page" ref={containerRef}>
-        PHASE ONE
-      </div>
+      PHASE ONE
     </div>
   );
 };
