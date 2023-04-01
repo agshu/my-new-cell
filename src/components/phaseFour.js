@@ -4,8 +4,6 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import * as THREE from "three";
 import target from "../assets/target.mind";
 import cell from "../assets/stemcell.gltf";
-import { auth, database } from "../firebase";
-import { ref, onValue } from "firebase/database";
 import Video from "./video";
 import video1 from "../assets/toastmaster.mp4";
 
@@ -30,12 +28,12 @@ const loadGTLF = (path) => {
 const PhaseFour = () => {
   const containerRef = useRef(null);
   const [showText, setShowText] = useState(false); // on click text in model
-  const [activeVideo, setActiveVideo] = useState(true); // video to be shown or not
+  //const [activeVideo, setActiveVideo] = useState(true); // video to be shown or not
 
   useEffect(() => {
     async function start() {
       const mindarThree = new MindARThree({
-        container: containerRef.current, //body om fullskärm
+        container: document.body, //body om fullskärm
         imageTargetSrc: target,
       });
       const { renderer, scene, camera } = mindarThree;
@@ -53,14 +51,6 @@ const PhaseFour = () => {
 
       const anchor = mindarThree.addAnchor(0); // index noll pga först i listan av target markers från mindAR
       anchor.group.add(gltf.scene);
-
-      anchor.onTargetFound = () => {
-        console.log("on target found");
-      };
-
-      anchor.onTargetLost = () => {
-        console.log("on target lost");
-      };
 
       // för att registerara event handeling
       containerRef.current.addEventListener("click", (event) => {
@@ -106,7 +96,7 @@ const PhaseFour = () => {
 
   return (
     <div>
-      {activeVideo && <Video video={video1} />}
+      <Video video={video1} />
       <div className="ar-page" ref={containerRef}>
         PHASE Four
       </div>

@@ -4,10 +4,6 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import * as THREE from "three";
 import target from "../assets/target.mind";
 import cell from "../assets/stemcell.gltf";
-import { auth, database } from "../firebase";
-import { ref, onValue } from "firebase/database";
-import Video from "../components/video";
-import video1 from "../assets/toastmaster.mp4";
 
 const loadGTLF = (path) => {
   return new Promise((resolve, reject) => {
@@ -25,7 +21,7 @@ const PhaseZero = () => {
   useEffect(() => {
     async function start() {
       const mindarThree = new MindARThree({
-        container: containerRef.current, //body om fullskärm
+        container: document.body, //body om fullskärm
         imageTargetSrc: target,
       });
       const { renderer, scene, camera } = mindarThree;

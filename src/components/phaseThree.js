@@ -33,7 +33,7 @@ const PhaseThree = () => {
   useEffect(() => {
     async function start() {
       const mindarThree = new MindARThree({
-        container: containerRef.current, //body om fullskärm
+        container: document.body, //body om fullskärm
         imageTargetSrc: target,
       });
       const { renderer, scene, camera } = mindarThree;
@@ -51,14 +51,6 @@ const PhaseThree = () => {
 
       const anchor = mindarThree.addAnchor(0); // index noll pga först i listan av target markers från mindAR
       anchor.group.add(gltf.scene);
-
-      anchor.onTargetFound = () => {
-        console.log("on target found");
-      };
-
-      anchor.onTargetLost = () => {
-        console.log("on target lost");
-      };
 
       // för att registerara event handeling
       containerRef.current.addEventListener("click", (event) => {
@@ -104,7 +96,7 @@ const PhaseThree = () => {
 
   return (
     <div>
-      {activeVideo && <Video video={video1} />}
+      <Video video={video1} />
       <div className="ar-page" ref={containerRef}>
         PHASE THREE
       </div>

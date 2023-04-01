@@ -1,9 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
-import { MindARThree } from "mind-ar/dist/mindar-image-three.prod.js";
-import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-import * as THREE from "three";
-import target from "../assets/target.mind";
-import cell from "../assets/stemcell.gltf";
+import React, { useEffect, useState } from "react";
 import { auth, database } from "../firebase";
 import { ref, onValue } from "firebase/database";
 import PhaseOne from "../components/phaseOne";
@@ -11,24 +6,16 @@ import PhaseZero from "../components/phaseZero";
 import PhaseTwo from "../components/phaseTwo";
 import PhaseThree from "../components/phaseThree";
 import PhaseFour from "../components/phaseFour";
-import Video from "../components/video";
-import video1 from "../assets/toastmaster.mp4";
 
 const Arpage = () => {
-  // const containerRef = useRef(null);
-  // const [showText, setShowText] = useState(false); // on click text in model
-  // const [active, setActive] = useState(true); // active in browser or not
   const [phaseZero, setPhaseZero] = useState(true);
   const [phaseOne, setPhaseOne] = useState(false);
   const [phaseTwo, setPhaseTwo] = useState(false);
   const [phaseThree, setPhaseThree] = useState(false);
   const [phaseFour, setPhaseFour] = useState(false);
 
-  //const [videoURL, setVideoURL] = useState("");
-
   function handleVisibilityChange() {
     if (document.hidden) {
-      console.log("dold");
     } else {
       const user = auth.currentUser;
       const timeSpent = ref(database, "users/" + user.uid + "/dateLoggedIn/");

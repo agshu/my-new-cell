@@ -4,8 +4,6 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import * as THREE from "three";
 import target from "../assets/target.mind";
 import cell from "../assets/stemcell.gltf";
-import { auth, database } from "../firebase";
-import { ref, onValue } from "firebase/database";
 import Video from "../components/video";
 import video1 from "../assets/toastmaster.mp4";
 
@@ -37,7 +35,7 @@ const PhaseOne = (videoState) => {
   useEffect(() => {
     async function start() {
       const mindarThree = new MindARThree({
-        container: containerRef.current, //body om fullskärm
+        container: document.body, //body om fullskärm
         imageTargetSrc: target,
       });
       const { renderer, scene, camera } = mindarThree;
@@ -55,14 +53,6 @@ const PhaseOne = (videoState) => {
 
       const anchor = mindarThree.addAnchor(0); // index noll pga först i listan av target markers från mindAR
       anchor.group.add(gltf.scene);
-
-      anchor.onTargetFound = () => {
-        console.log("on target found");
-      };
-
-      anchor.onTargetLost = () => {
-        console.log("on target lost");
-      };
 
       // för att registerara event handeling
       containerRef.current.addEventListener("click", (event) => {
