@@ -15,9 +15,11 @@ const Arpage = () => {
   const [phaseTwo, setPhaseTwo] = useState(false);
   const [phaseThree, setPhaseThree] = useState(false);
   const [phaseFour, setPhaseFour] = useState(false);
+  const [scanningSett, setScanningSett] = useState("yes");
+
+  const containerRef = useRef(null);
 
   const [showText, setShowText] = useState(false); // on click text in model
-  const [scanning, setScanning] = useState(true);
 
   function handleVisibilityChange() {
     if (document.hidden) {
@@ -33,6 +35,7 @@ const Arpage = () => {
         const timeDiff = Date.now() - dateTime;
         console.log(timeDiff);
         if (timeDiff > 60000 && timeDiff < 120000) {
+          setScanningSett("no");
           // en  minut
           setPhaseZero(false);
           setPhaseOne(true);
@@ -51,6 +54,8 @@ const Arpage = () => {
           setPhaseZero(false);
           setPhaseThree(false);
           setPhaseFour(true);
+        } else if (timeDiff > 250000) {
+          setScanningSett("yes");
         }
       });
     }
@@ -71,15 +76,12 @@ const Arpage = () => {
     });
   };
 
-  const containerRef = useRef(null);
   useEffect(() => {
-    console.log(scanning);
-    async function start() {
+    async function start(scanningSett) {
+      console.log("scaninng:" + scanningSett);
       const mindarThree = new MindARThree({
         container: document.body, //body om fullskärm
         imageTargetSrc: target,
-        uiScanning: scanning,
-        uiLoading: "no",
       });
       const { renderer, scene, camera } = mindarThree;
 
@@ -131,17 +133,13 @@ const Arpage = () => {
         renderer.render(scene, camera);
       });
 
-      function stopMindAR() {
-        mindarThree.stop();
-      }
-
       return () => {
         renderer.setAnimationLoop(null);
         mindarThree.stop();
       };
     }
-    start();
-  }, []);
+    start(scanningSett);
+  }, [scanningSett]);
 
   return (
     <div>
@@ -177,7 +175,7 @@ const Arpage = () => {
       {phaseFour && (
         <div>
           <Video video={video1} />
-          <div className="ar-page" ref={containerRef}>
+          <div id="phaseFour" className="ar-page" ref={containerRef}>
             PHASE Four
           </div>
         </div>

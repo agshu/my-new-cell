@@ -87,6 +87,16 @@ h1 {
   align-self: flex-start;
 }
 
+.scanning {
+  z-index: -1 !important;
+  display: block;
+}
+
+.inner {
+  z-index: -1 !important;
+  display: block;
+}
+
 .input-field {
   font-size: 16px;
   font-style: italic;
@@ -177,6 +187,12 @@ h1 {
   width: 100vw;
   object-fit: contain;
   background-color: black;
+  z-index: 3;
+}
+
+.mindar-ui-overlay {
+  display: none;
+  z-index: -1 !important;
 }
 
 .video-btn {
