@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { MindARThree } from "mind-ar/dist/mindar-image-three.prod.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import * as THREE from "three";
-import target from "../assets/targets.mind";
+import target from "../assets/target2.mind";
 import cell from "../assets/stemcell.gltf";
 import Video from "../components/video";
 import video1 from "../assets/toastmaster.mp4";
@@ -17,6 +17,7 @@ const Arpage = () => {
   const [phaseFour, setPhaseFour] = useState(false);
 
   const [showText, setShowText] = useState(false); // on click text in model
+  const [scanning, setScanning] = useState(true);
 
   function handleVisibilityChange() {
     if (document.hidden) {
@@ -26,7 +27,9 @@ const Arpage = () => {
 
       onValue(timeSpent, (snapshot) => {
         const dateValues = snapshot.val();
-        const dateTime = dateValues.slice(-1)[0].timeperiod;
+        const dateTime = Array.isArray(dateValues)
+          ? dateValues.slice(-1)[0].timeperiod
+          : dateValues.timeperiod;
         const timeDiff = Date.now() - dateTime;
         console.log(timeDiff);
         if (timeDiff > 60000 && timeDiff < 120000) {
@@ -70,10 +73,13 @@ const Arpage = () => {
 
   const containerRef = useRef(null);
   useEffect(() => {
+    console.log(scanning);
     async function start() {
       const mindarThree = new MindARThree({
         container: document.body, //body om fullskärm
         imageTargetSrc: target,
+        uiScanning: scanning,
+        uiLoading: "no",
       });
       const { renderer, scene, camera } = mindarThree;
 
@@ -125,6 +131,10 @@ const Arpage = () => {
         renderer.render(scene, camera);
       });
 
+      function stopMindAR() {
+        mindarThree.stop();
+      }
+
       return () => {
         renderer.setAnimationLoop(null);
         mindarThree.stop();
@@ -132,12 +142,6 @@ const Arpage = () => {
     }
     start();
   }, []);
-
-  // function stopMindAR() {
-  //   console.log("stoppa");
-  //   mindarThree.stop();
-  //   setMindARRunning(false);
-  // }
 
   return (
     <div>

@@ -83,6 +83,10 @@ h1 {
   margin-bottom: 10rem;
 }
 
+.form > h1 {
+  align-self: flex-start;
+}
+
 .input-field {
   font-size: 16px;
   font-style: italic;

@@ -1,5 +1,6 @@
 import React from "react";
 import LogIn from "../login";
+import Register from "../register";
 
 const Startpage = () => {
   return (
@@ -10,6 +11,7 @@ const Startpage = () => {
         <hr className="startpage-hr" />
       </section>
       <LogIn />
+      <Register />
     </div>
   );
 };

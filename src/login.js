@@ -26,7 +26,7 @@ const LogIn = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const name = nameInputRef.current.value + "@gmail.com";
+    const name = nameInputRef.current.value;
     const password = "password";
 
     signInWithEmailAndPassword(auth, name, password)

@@ -18,22 +18,21 @@ const Register = () => {
     }
   }
   const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
 
   function handleNameChange(event) {
     setName(event.target.value);
   }
 
-  function handlePasswordChange(event) {
-    setPassword(event.target.value);
-  }
+  // function handlePasswordChange(event) {
+  //   setPassword(event.target.value);
+  // }
 
   async function handleSubmit(event) {
     event.preventDefault();
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
-        name + "@gmail.com",
+        name,
         "password"
       );
       const user = userCredential.user;
@@ -53,12 +52,6 @@ const Register = () => {
         value={name}
         onChange={handleNameChange}
       />
-      {/* <input
-        id="password"
-        type="password"
-        value={password}
-        onChange={handlePasswordChange}
-      /> */}
       <button type="submit">Register</button>
     </form>
   );
