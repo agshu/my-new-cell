@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
+import * as ReactDOM from "react-dom";
 import { MindARThree } from "mind-ar/dist/mindar-image-three.prod.js";
-import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import * as THREE from "three";
-import target from "../assets/target.mind";
-import cell from "../assets/stemcell.gltf";
+import target from "../assets/target2.mind";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import cell from "../assets/models/modelOne.gltf";
 
 const loadGTLF = (path) => {
   return new Promise((resolve, reject) => {
@@ -14,16 +15,18 @@ const loadGTLF = (path) => {
   });
 };
 
-const PhaseZero = () => {
+const Box = () => {
   const containerRef = useRef(null);
-  const [showText, setShowText] = useState(false); // on click text in model
+  const [scanningState, setScanning] = useState("yes");
 
   useEffect(() => {
     async function start() {
       const mindarThree = new MindARThree({
-        container: document.body, //body om fullskärm
+        container: containerRef.current,
         imageTargetSrc: target,
+        uiScanning: "yes",
       });
+
       const { renderer, scene, camera } = mindarThree;
 
       const pointLight = new THREE.PointLight(0xffffff);
@@ -37,58 +40,36 @@ const PhaseZero = () => {
       gltf.scene.position.set(0, 0, 0);
       gltf.scene.userData.clickable = true;
 
-      const anchor = mindarThree.addAnchor(0); // index noll pga först i listan av target markers från mindAR
+      const anchor = mindarThree.addAnchor(0);
       anchor.group.add(gltf.scene);
-
-      // för att registerara event handeling
-      containerRef.current.addEventListener("click", (event) => {
-        const mouse = new THREE.Vector2();
-        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-        const raycaster = new THREE.Raycaster();
-        raycaster.setFromCamera(mouse, camera);
-        const intersects = raycaster.intersectObjects(scene.children, true);
-
-        if (intersects.length > 0) {
-          let o = intersects[0].object;
-          while (o.parent && !o.userData.clickable) {
-            o = o.parent;
-            if (o.userData.clickable) {
-              if (o === gltf.scene) {
-                console.log("här e jag");
-                setShowText(true);
-              } else {
-                setShowText(false);
-                console.log("utanför"); // TODO: fix
-              }
-            }
-          }
-        }
-      });
 
       mindarThree.start();
       renderer.setAnimationLoop(() => {
-        gltf.scene.rotation.x += 0.01;
-        gltf.scene.rotation.y += 0.005;
         renderer.render(scene, camera);
       });
 
       return () => {
+        console.log("tjena");
         renderer.setAnimationLoop(null);
         mindarThree.stop();
       };
     }
     start();
-  }, []);
+  }, [scanningState]);
+
+  // const handleUnmount = () => {
+  //   ReactDOM.unmountComponentAtNode(containerRef.current.parentNode);
+  // };
 
   return (
-    <div>
-      <div className="ar-page" ref={containerRef}>
-        PHASE ZERO
-      </div>
+    <div
+      className="arOne"
+      style={{ width: "100hw", height: "90vh" }}
+      ref={containerRef}
+    >
+      PHASE ZERO
     </div>
   );
 };
 
-export default PhaseZero;
+export default Box;

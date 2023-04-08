@@ -1,13 +1,6 @@
 import { auth, database } from "../firebase";
 import { ref, onValue } from "firebase/database";
 import React, { useEffect, useRef, useState } from "react";
-import { MindARThree } from "mind-ar/dist/mindar-image-three.prod.js";
-import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-import * as THREE from "three";
-import target from "../assets/target2.mind";
-import cell from "../assets/stemcell.gltf";
-import Video from "../components/video";
-import video1 from "../assets/toastmaster.mp4";
 
 const TestPage = () => {
   //   const [phaseZero, setPhaseZero] = useState(true);

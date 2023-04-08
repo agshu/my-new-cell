@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import video from "../assets/tmaster.mp4";
+//import video from "../assets/videos/VideoTwo.mp4";
 
 //TODO: skicka in video som prompt
 
-const Video = () => {
+const Video = (video) => {
   const [clicked, setClicked] = useState(false);
 
   function playPause() {
@@ -28,7 +28,7 @@ const Video = () => {
       </button>
       <video
         id="video1"
-        src={video}
+        src={video.video}
         width="100%"
         height="100%"
         muted

@@ -2,10 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { MindARThree } from "mind-ar/dist/mindar-image-three.prod.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import * as THREE from "three";
-import target from "../assets/target.mind";
-import cell from "../assets/stemcell.gltf";
-import Video from "./video";
-import video1 from "../assets/toastmaster.mp4";
+import target from "../assets/target2.mind";
+import cell from "../assets/models/modelTwo.gltf";
+import Video from "../components/video";
+import videoOne from "../assets/videos/VideoOneMitosis.mp4";
 
 const loadGTLF = (path) => {
   return new Promise((resolve, reject) => {
@@ -16,15 +16,6 @@ const loadGTLF = (path) => {
   });
 };
 
-// const loadAudio = (path) => {
-//   return new Promise((resolve, reject) => {
-//     const loader = new THREE.AudioLoader();
-//     loader.load(path, (buffer) => {
-//       resolve(buffer);
-//     });
-//   });
-// };
-
 const PhaseFour = () => {
   const containerRef = useRef(null);
   const [showText, setShowText] = useState(false); // on click text in model
@@ -32,11 +23,13 @@ const PhaseFour = () => {
 
   useEffect(() => {
     async function start() {
-      const mindarThree = new MindARThree({
-        container: document.body, //body om fullskärm
+      console.log("går in här");
+      const mindarThree4 = new MindARThree({
+        container: containerRef.current, //body om fullskärm
         imageTargetSrc: target,
+        uiScanning: "no",
       });
-      const { renderer, scene, camera } = mindarThree;
+      const { renderer, scene, camera } = mindarThree4;
 
       const pointLight = new THREE.PointLight(0xffffff);
       pointLight.position.set(5, 5, 5);
@@ -49,8 +42,11 @@ const PhaseFour = () => {
       gltf.scene.position.set(0, 0, 0);
       gltf.scene.userData.clickable = true;
 
-      const anchor = mindarThree.addAnchor(0); // index noll pga först i listan av target markers från mindAR
+      const anchor = mindarThree4.addAnchor(0); // index noll pga först i listan av target markers från mindAR
       anchor.group.add(gltf.scene);
+
+      console.log(gltf.scene);
+      console.log(anchor);
 
       // för att registerara event handeling
       containerRef.current.addEventListener("click", (event) => {
@@ -79,16 +75,16 @@ const PhaseFour = () => {
         }
       });
 
-      mindarThree.start();
+      mindarThree4.start();
       renderer.setAnimationLoop(() => {
-        gltf.scene.rotation.x += 0.01;
-        gltf.scene.rotation.y += 0.005;
+        //gltf.scene.rotation.x += 0.01;
+        //gltf.scene.rotation.y += 0.005;
         renderer.render(scene, camera);
       });
 
       return () => {
         renderer.setAnimationLoop(null);
-        mindarThree.stop();
+        mindarThree4.stop();
       };
     }
     start();
@@ -96,9 +92,9 @@ const PhaseFour = () => {
 
   return (
     <div>
-      <Video video={video1} />
+      <Video video={videoOne} />
       <div className="ar-page" ref={containerRef}>
-        PHASE Four
+        PHASE FOUR
       </div>
     </div>
   );

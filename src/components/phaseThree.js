@@ -2,10 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { MindARThree } from "mind-ar/dist/mindar-image-three.prod.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import * as THREE from "three";
-import target from "../assets/target.mind";
-import cell from "../assets/stemcell.gltf";
-import Video from "./video";
-import video1 from "../assets/toastmaster.mp4";
+import target from "../assets/target2.mind";
+import cell from "../assets/models/modelTwo.gltf";
+import Video from "../components/video";
+import videoTwo from "../assets/videos/VideoTwo.mp4";
 
 const loadGTLF = (path) => {
   return new Promise((resolve, reject) => {
@@ -16,25 +16,16 @@ const loadGTLF = (path) => {
   });
 };
 
-// const loadAudio = (path) => {
-//   return new Promise((resolve, reject) => {
-//     const loader = new THREE.AudioLoader();
-//     loader.load(path, (buffer) => {
-//       resolve(buffer);
-//     });
-//   });
-// };
-
 const PhaseThree = () => {
   const containerRef = useRef(null);
   const [showText, setShowText] = useState(false); // on click text in model
-  const [activeVideo, setActiveVideo] = useState(true); // video to be shown or not
 
   useEffect(() => {
     async function start() {
       const mindarThree = new MindARThree({
-        container: document.body, //body om fullskärm
+        container: containerRef.current, //body om fullskärm
         imageTargetSrc: target,
+        uiScanning: "no",
       });
       const { renderer, scene, camera } = mindarThree;
 
@@ -81,8 +72,6 @@ const PhaseThree = () => {
 
       mindarThree.start();
       renderer.setAnimationLoop(() => {
-        gltf.scene.rotation.x += 0.01;
-        gltf.scene.rotation.y += 0.005;
         renderer.render(scene, camera);
       });
 
@@ -96,8 +85,12 @@ const PhaseThree = () => {
 
   return (
     <div>
-      <Video video={video1} />
-      <div className="ar-page" ref={containerRef}>
+      <Video video={videoTwo} />
+      <div
+        className="arOne"
+        style={{ width: "100hw", height: "90vh" }}
+        ref={containerRef}
+      >
         PHASE THREE
       </div>
     </div>

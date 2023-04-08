@@ -5,9 +5,12 @@ import { MindARThree } from "mind-ar/dist/mindar-image-three.prod.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import * as THREE from "three";
 import target from "../assets/target2.mind";
-import cell from "../assets/stemcell.gltf";
+import cellOne from "../assets/models/modelOne.gltf";
+import cellTwo from "../assets/models/modelTwo.gltf";
+import cellThree from "../assets/models/modelThree.gltf";
 import Video from "../components/video";
-import video1 from "../assets/toastmaster.mp4";
+import videoOne from "../assets/videos/VideoOneMitosis.mp4";
+import videoTwo from "../assets/videos/VideoTwo.mp4";
 
 const Arpage = () => {
   const [phaseZero, setPhaseZero] = useState(true);
@@ -15,11 +18,12 @@ const Arpage = () => {
   const [phaseTwo, setPhaseTwo] = useState(false);
   const [phaseThree, setPhaseThree] = useState(false);
   const [phaseFour, setPhaseFour] = useState(false);
-  const [scanningSett, setScanningSett] = useState("yes");
+  const [cellStatus, setCellStatus] = useState(cellOne);
+  const [isRunning, setIsRunning] = useState(false);
 
   const containerRef = useRef(null);
 
-  const [showText, setShowText] = useState(false); // on click text in model
+  //const [showText, setShowText] = useState(false); // on click text in model
 
   function handleVisibilityChange() {
     if (document.hidden) {
@@ -35,7 +39,6 @@ const Arpage = () => {
         const timeDiff = Date.now() - dateTime;
         console.log(timeDiff);
         if (timeDiff > 60000 && timeDiff < 120000) {
-          setScanningSett("no");
           // en  minut
           setPhaseZero(false);
           setPhaseOne(true);
@@ -54,8 +57,7 @@ const Arpage = () => {
           setPhaseZero(false);
           setPhaseThree(false);
           setPhaseFour(true);
-        } else if (timeDiff > 250000) {
-          setScanningSett("yes");
+          setCellStatus(cellTwo);
         }
       });
     }
@@ -77,8 +79,8 @@ const Arpage = () => {
   };
 
   useEffect(() => {
-    async function start(scanningSett) {
-      console.log("scaninng:" + scanningSett);
+    async function start() {
+      let cell = cellStatus;
       const mindarThree = new MindARThree({
         container: document.body, //body om fullskärm
         imageTargetSrc: target,
@@ -91,7 +93,7 @@ const Arpage = () => {
       const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
       scene.add(pointLight, ambientLight, directionalLight);
 
-      const gltf = await loadGTLF(phaseZero ? cell : cell); // different 3D models for different time periods
+      const gltf = await loadGTLF(cell); // different 3D models for different time periods
       gltf.scene.scale.set(0.2, 0.2, 0.2);
       gltf.scene.position.set(0, 0, 0);
       gltf.scene.userData.clickable = true;
@@ -116,7 +118,7 @@ const Arpage = () => {
             if (o.userData.clickable) {
               if (o === gltf.scene) {
                 console.log("här e jag");
-                setShowText(true);
+                //setShowText(true);
               } else {
                 //setShowText(false);
                 console.log("utanför"); // TODO: fix
@@ -126,7 +128,16 @@ const Arpage = () => {
         }
       });
 
-      mindarThree.start();
+      if (isRunning) {
+        console.log("försöker stänga av");
+        mindarThree.stop();
+        mindarThree.renderer.setAnimationLoop(null);
+        setIsRunning(false);
+      } else {
+        mindarThree.start();
+        setIsRunning(true);
+      }
+
       renderer.setAnimationLoop(() => {
         gltf.scene.rotation.x += 0.01;
         gltf.scene.rotation.y += 0.005;
@@ -138,8 +149,8 @@ const Arpage = () => {
         mindarThree.stop();
       };
     }
-    start(scanningSett);
-  }, [scanningSett]);
+    start();
+  }, [cellStatus]);
 
   return (
     <div>
@@ -150,7 +161,7 @@ const Arpage = () => {
       )}
       {phaseOne && (
         <div>
-          <Video video={video1}></Video>
+          <Video video={videoOne}></Video>
           <div className="ar-page" ref={containerRef}>
             PHASE ONE
           </div>
@@ -158,7 +169,7 @@ const Arpage = () => {
       )}
       {phaseTwo && (
         <div>
-          <Video video={video1} />
+          <Video video={videoTwo} />
           <div className="ar-page" ref={containerRef}>
             PHASE Two
           </div>
@@ -166,7 +177,7 @@ const Arpage = () => {
       )}
       {phaseThree && (
         <div>
-          <Video video={video1} />
+          <Video video={videoOne} />
           <div className="ar-page" ref={containerRef}>
             PHASE THREE
           </div>
@@ -174,13 +185,13 @@ const Arpage = () => {
       )}
       {phaseFour && (
         <div>
-          <Video video={video1} />
+          {/* <Video video={videoTwo} /> */}
           <div id="phaseFour" className="ar-page" ref={containerRef}>
             PHASE Four
           </div>
         </div>
       )}
-      <div
+      {/* <div
         className={showText ? "info-text" : "hidden"}
         style={{
           position: "absolute",
@@ -189,7 +200,7 @@ const Arpage = () => {
         }}
       >
         {showText && <div>A stem cell</div>}
-      </div>
+      </div> */}
     </div>
   );
 };

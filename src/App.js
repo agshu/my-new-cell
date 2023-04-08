@@ -2,11 +2,14 @@ import React, { useState, useEffect } from "react";
 import { HashRouter, Routes, Route } from "react-router-dom";
 import Startpage from "./pages/startpage";
 import Infopage from "./pages/infoPage";
-import Arpage from "./pages/arPage";
-import AuthRoute from "./authRoute";
+import AuthRoute from "./components/authRoute";
 import { auth, database } from "./firebase";
-import TestPage from "./pages/testPage";
 import { ref, onValue } from "firebase/database";
+import PhaseOne from "./components/phaseOne";
+import PhaseTwo from "./components/phaseTwo";
+import PhaseThree from "./components/phaseThree";
+import PhaseZero from "./components/phaseZero";
+import PhaseFour from "./components/phaseFour";
 
 function App() {
   const [phaseZero, setPhaseZero] = useState(true);
@@ -14,6 +17,11 @@ function App() {
   const [phaseTwo, setPhaseTwo] = useState(false);
   const [phaseThree, setPhaseThree] = useState(false);
   const [phaseFour, setPhaseFour] = useState(false);
+  //const [showBox, setShowBox] = useState(true);
+
+  // const handleUnmount = () => {
+  //   setShowBox(false);
+  // };
 
   function handleVisibilityChange() {
     if (document.hidden) {
@@ -28,22 +36,22 @@ function App() {
           : dateValues.timeperiod;
         const timeDiff = Date.now() - dateTime;
         console.log(timeDiff);
-        if (timeDiff > 60000 && timeDiff < 120000) {
-          // en  minut
+        if (timeDiff > 3600000 && timeDiff < 7200000) {
+          // en  minut är 60 000
           setPhaseZero(false);
           setPhaseOne(true);
-        } else if (timeDiff > 120000 && timeDiff < 180000) {
-          // två minuter
+        } else if (timeDiff > 7200000 && timeDiff < 10800000) {
+          // två minuter är 120 000
           setPhaseZero(false);
           setPhaseOne(false);
           setPhaseTwo(true);
-        } else if (timeDiff > 180000 && timeDiff < 240000) {
-          // två minuter
+        } else if (timeDiff > 10800000 && timeDiff < 14400000) {
+          // två minuter 180 000
           setPhaseZero(false);
           setPhaseTwo(false);
           setPhaseThree(true);
-        } else if (timeDiff > 240000) {
-          // två minuter
+        } else if (timeDiff > 14400000) {
+          // två minuter 240 000
           setPhaseZero(false);
           setPhaseThree(false);
           setPhaseFour(true);
@@ -78,7 +86,31 @@ function App() {
             path="/ar"
             element={
               <AuthRoute>
-                <Arpage />
+                <div>
+                  {phaseZero && <PhaseZero />}
+                  {phaseOne && <PhaseOne />}
+                  {phaseTwo && <PhaseTwo />}
+                  {phaseThree && <PhaseThree />}
+                  {phaseFour && <PhaseFour />}
+                </div>
+                {/* {
+                  <div>
+                    {showBox && <NegativePhase />}
+                    {showBox && (
+                      <div className="start">
+                        <h1>Håll scannern över bilden på kortet</h1>
+                        <button className="ok-btn" onClick={handleUnmount}>
+                          Ok
+                        </button>
+                      </div>
+                    )}
+                    {phaseZero && !showBox && <PhaseZero />}
+                    {phaseOne && !showBox && <PhaseOne />}
+                    {phaseTwo && !showBox && <PhaseTwo />}
+                    {phaseThree && !showBox && <PhaseThree />}
+                    {phaseFour && !showBox && <PhaseFour />}
+                  </div>
+                } */}
               </AuthRoute>
             }
           />
