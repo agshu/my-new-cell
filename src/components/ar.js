@@ -15,19 +15,25 @@ const loadGTLF = (path) => {
   });
 };
 
-const Box = () => {
+export default () => {
   const containerRef = useRef(null);
-  const [scanningState, setScanning] = useState("yes");
 
   useEffect(() => {
     async function start() {
       const mindarThree = new MindARThree({
         container: containerRef.current,
         imageTargetSrc: target,
-        uiScanning: "yes",
       });
-
       const { renderer, scene, camera } = mindarThree;
+      const anchor = mindarThree.addAnchor(0);
+      // const geometry = new THREE.PlaneGeometry(1, 0.55);
+      // const material = new THREE.MeshBasicMaterial({
+      //   color: 0x00ffff,
+      //   transparent: true,
+      //   opacity: 0.5,
+      // });
+      // const plane = new THREE.Mesh(geometry, material);
+      // anchor.group.add(plane);
 
       const pointLight = new THREE.PointLight(0xffffff);
       pointLight.position.set(5, 5, 5);
@@ -36,11 +42,9 @@ const Box = () => {
       scene.add(pointLight, ambientLight, directionalLight);
 
       const gltf = await loadGTLF(cell);
-      gltf.scene.scale.set(0.2, 0.2, 0.2);
-      gltf.scene.position.set(0, 0, 0);
+      //gltf.scene.scale.set(0.2, 0.2, 0.2);
+      //gltf.scene.position.set(0, 0, 0);
       gltf.scene.userData.clickable = true;
-
-      const anchor = mindarThree.addAnchor(0);
       anchor.group.add(gltf.scene);
 
       mindarThree.start();
@@ -49,29 +53,14 @@ const Box = () => {
       });
 
       return () => {
-        console.log("tjena");
         renderer.setAnimationLoop(null);
         mindarThree.stop();
       };
     }
     start();
-  }, [scanningState]);
-
-  // const handleUnmount = () => {
-  //   ReactDOM.unmountComponentAtNode(containerRef.current.parentNode);
-  // };
+  }, []);
 
   return (
-    <div
-      className="arOne"
-      style={{ width: "100hw", height: "80vh" }}
-      ref={containerRef}
-    >
-      {/* <button className="video-btn" onClick={handleUnmount}>
-        Unmount Box
-      </button> */}
-    </div>
+    <div style={{ width: "100%", height: "100%" }} ref={containerRef}></div>
   );
 };
-
-export default Box;

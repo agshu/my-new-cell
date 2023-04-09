@@ -10,6 +10,8 @@ import PhaseTwo from "./components/phaseTwo";
 import PhaseThree from "./components/phaseThree";
 import PhaseZero from "./components/phaseZero";
 import PhaseFour from "./components/phaseFour";
+import Box from "./components/ar.js";
+import Box2 from "./components/ar2.js";
 
 function App() {
   const [phaseZero, setPhaseZero] = useState(true);
@@ -36,8 +38,8 @@ function App() {
           : dateValues.timeperiod;
         const timeDiff = Date.now() - dateTime;
         console.log(timeDiff);
-        if (timeDiff > 3600000 && timeDiff < 7200000) {
-          // en  minut är 60 000
+        if (timeDiff > 60000 && timeDiff < 7200000) {
+          // en  minut är 60 000, <7200000
           setPhaseZero(false);
           setPhaseOne(true);
         } else if (timeDiff > 7200000 && timeDiff < 10800000) {
@@ -68,7 +70,7 @@ function App() {
   }, []);
 
   return (
-    <div>
+    <div className="App">
       <HashRouter>
         <Routes>
           <Route exact path="/" element={<Startpage />} />
@@ -85,33 +87,13 @@ function App() {
             exact
             path="/ar"
             element={
-              <AuthRoute>
-                <div>
-                  {phaseZero && <PhaseZero />}
-                  {phaseOne && <PhaseOne />}
-                  {phaseTwo && <PhaseTwo />}
-                  {phaseThree && <PhaseThree />}
-                  {phaseFour && <PhaseFour />}
-                </div>
-                {/* {
-                  <div>
-                    {showBox && <NegativePhase />}
-                    {showBox && (
-                      <div className="start">
-                        <h1>Håll scannern över bilden på kortet</h1>
-                        <button className="ok-btn" onClick={handleUnmount}>
-                          Ok
-                        </button>
-                      </div>
-                    )}
-                    {phaseZero && !showBox && <PhaseZero />}
-                    {phaseOne && !showBox && <PhaseOne />}
-                    {phaseTwo && !showBox && <PhaseTwo />}
-                    {phaseThree && !showBox && <PhaseThree />}
-                    {phaseFour && !showBox && <PhaseFour />}
-                  </div>
-                } */}
-              </AuthRoute>
+              <div className="container">
+                {phaseZero && <PhaseZero />}
+                {phaseOne && <PhaseOne />}
+                {phaseTwo && <PhaseTwo />}
+                {phaseThree && <PhaseThree />}
+                {phaseFour && <PhaseFour />}
+              </div>
             }
           />
         </Routes>

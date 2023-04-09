@@ -60,15 +60,9 @@ const Box = () => {
   }, [scanningState]);
 
   return (
-    <div>
-      <Video video={videoTwo} />
-      <div
-        className="arOne"
-        style={{ width: "100hw", height: "80vh" }}
-        ref={containerRef}
-      >
-        PHASE TWO
-      </div>
+    <div style={{ width: "100%", height: "100%" }} ref={containerRef}>
+      {/* <Video video={videoTwo} /> */}
+      <div>PHASE TWO</div>
     </div>
   );
 };

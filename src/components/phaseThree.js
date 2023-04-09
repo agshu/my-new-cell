@@ -88,7 +88,7 @@ const PhaseThree = () => {
       <Video video={videoTwo} />
       <div
         className="arOne"
-        style={{ width: "100hw", height: "90vh" }}
+        style={{ width: "100vw", height: "90vh" }}
         ref={containerRef}
       >
         PHASE THREE
