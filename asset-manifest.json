@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/my-new-cell/static/css/main.05daf2af.css",
-    "main.js": "/my-new-cell/static/js/main.e432a19f.js",
+    "main.css": "/my-new-cell/static/css/main.65f08312.css",
+    "main.js": "/my-new-cell/static/js/main.3b982c37.js",
     "static/media/modelThree.gltf": "/my-new-cell/static/media/modelThree.f78eb5d5d8d8ebeab0f6.gltf",
     "static/media/VideoTwo.mp4": "/my-new-cell/static/media/VideoTwo.cc3d7e896a455dd066d7.mp4",
     "static/media/VideoOneMitosis.mp4": "/my-new-cell/static/media/VideoOneMitosis.3cb710418384983279bc.mp4",
@@ -12,11 +12,11 @@
     "index.html": "/my-new-cell/index.html",
     "static/media/arrow-light.svg": "/my-new-cell/static/media/arrow-light.421fa896b8ab749161ef.svg",
     "static/media/arrow.svg": "/my-new-cell/static/media/arrow.ccbe006223bd34fd4f4f.svg",
-    "main.05daf2af.css.map": "/my-new-cell/static/css/main.05daf2af.css.map",
-    "main.e432a19f.js.map": "/my-new-cell/static/js/main.e432a19f.js.map"
+    "main.65f08312.css.map": "/my-new-cell/static/css/main.65f08312.css.map",
+    "main.3b982c37.js.map": "/my-new-cell/static/js/main.3b982c37.js.map"
   },
   "entrypoints": [
-    "static/css/main.05daf2af.css",
-    "static/js/main.e432a19f.js"
+    "static/css/main.65f08312.css",
+    "static/js/main.3b982c37.js"
   ]
 }
