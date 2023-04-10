@@ -10,8 +10,6 @@ import PhaseTwo from "./components/phaseTwo";
 import PhaseThree from "./components/phaseThree";
 import PhaseZero from "./components/phaseZero";
 import PhaseFour from "./components/phaseFour";
-import Box from "./components/ar.js";
-import Box2 from "./components/ar2.js";
 
 function App() {
   const [phaseZero, setPhaseZero] = useState(true);

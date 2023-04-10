@@ -7,6 +7,7 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import cell from "../assets/models/modelOne.gltf";
 import cellParts from "../assets/models/stemcellWithParts.gltf";
 import Modal from "./modal";
+import image from "../assets/images/cellparts.png";
 
 const loadGTLF = (path) => {
   return new Promise((resolve, reject) => {
@@ -17,23 +18,23 @@ const loadGTLF = (path) => {
   });
 };
 
-const Box = () => {
+const PhaseOne = () => {
   //const containerRef = useRef(null);
-  const containerId = "container1";
-  const [scanningState, setScanning] = useState("yes");
+  const containerId = "container0";
+  //const [scanningState, setScanning] = useState("yes");
   //const [showText, setShowText] = useState(false); // on click text in model
   const [show, setShow] = useState(false);
   const [celly, setCelly] = useState(cell);
-  const [targetFound, setTargetFound] = useState(false);
+  //const [targetFound, setTargetFound] = useState(false);
 
   useEffect(() => {
     async function start() {
       const mindarThree = new MindARThree({
         container: document.getElementById(containerId),
         imageTargetSrc: target,
-        uiScanning: scanningState,
+        uiScanning: "yes",
       });
-      console.log(document.getElementById(containerId));
+      //console.log(document.getElementById(containerId));
       const { renderer, scene, camera } = mindarThree;
 
       const pointLight = new THREE.PointLight(0xffffff);
@@ -42,7 +43,7 @@ const Box = () => {
       const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
       scene.add(pointLight, ambientLight, directionalLight);
 
-      const gltf = await loadGTLF(celly);
+      const gltf = await loadGTLF(cell);
       gltf.scene.scale.set(0.1, 0.1, 0.1);
       gltf.scene.position.set(0, 0.2, 0);
       gltf.scene.userData.clickable = true;
@@ -68,16 +69,16 @@ const Box = () => {
               if (o.userData.clickable) {
                 if (o === gltf.scene) {
                   console.log("här e jag");
-                  anchor.group.remove(gltf.scene);
-                  setScanning("no");
-                  setCelly(cellParts);
+                  //anchor.group.remove(gltf.scene);
+                  //setScanning("no");
+                  //setCelly(cellParts);
                   setShow(true);
                 }
               }
             }
           } else {
-            anchor.group.remove(gltf.scene);
-            setCelly(cell);
+            //anchor.group.remove(gltf.scene);
+            //setCelly(cell);
             console.log("utanför");
           }
         });
@@ -91,30 +92,32 @@ const Box = () => {
       });
 
       return () => {
+        anchor.group.remove(gltf.scene);
         renderer.setAnimationLoop(null);
         mindarThree.stop();
       };
     }
     start();
-  }, [celly]);
+  }, []);
 
   return (
     <div id={containerId}>
       <div className="fas-h1">FAS 1: EN STAMCELL</div>
-      <button className="button-modal" onClick={() => setCelly(cellParts)}>
+      {/* <button className="button-modal" onClick={() => setCelly(cellParts)}>
         Se vad som är inuti
-      </button>
+      </button> */}
       <Modal title="En stamcell" onClose={() => setShow(false)} show={show}>
         <p>
-          När du börjar växa till att bli en människa består kroppen av bara
+          När ett djur eller en människa börjar växa består det först bara av
           några få stamceller. Dessa stamceller har en speciell förmåga att
           förvandlas till alla olika sorters celler som behövs i kroppen. Det
           betyder att de till exempel kan bli till hjärnceller, hjärtceller
-          eller celler i magen.
+          eller celler i magen. Men just nu är det bara en enda stamcell.
+          Stamcellen som du ser här kommer att dela på sig och växa. Vad tror du
+          att det blir när den växt klart?
           <br />
           <br />
-          Stemcellen som du ser här kommer alltså att dela på sig och växa, vem
-          vet vad det blir i slutändan!
+          <img className="modal-img" src={image}></img>
         </p>
       </Modal>
       {/* <div className={showText ? "info-text" : "hidden"}>
@@ -124,4 +127,4 @@ const Box = () => {
   );
 };
 
-export default Box;
+export default PhaseOne;

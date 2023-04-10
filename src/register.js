@@ -40,19 +40,29 @@ const Register = () => {
       await writeUserData(name, userID);
       // redirect to info.html after data is inserted into the database
       //window.location.href = "/info.html";
+      alert(
+        "Användare skapad! Testa att logga in på raden under med samma mail."
+      );
     } catch (error) {
       alert(error.message);
     }
   }
   return (
     <form onSubmit={handleSubmit}>
-      <input
-        id="nameInput"
-        type="text"
-        value={name}
-        onChange={handleNameChange}
-      />
-      <button type="submit">Register</button>
+      <div className="logins">
+        <input
+          id="nameInput"
+          className="input-field animate__animated animate__fadeInLeft"
+          placeholder="Registrera din mail"
+          type="text"
+          value={name}
+          onChange={handleNameChange}
+        />
+        <button
+          className="login-btn animate__animated animate__fadeInLeft"
+          type="submit"
+        ></button>
+      </div>
     </form>
   );
 };

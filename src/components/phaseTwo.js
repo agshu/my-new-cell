@@ -1,5 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
-import * as ReactDOM from "react-dom";
+import React, { useEffect, useState } from "react";
 import { MindARThree } from "mind-ar/dist/mindar-image-three.prod.js";
 import * as THREE from "three";
 import target from "../assets/target2.mind";
@@ -7,6 +6,7 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import cell from "../assets/models/modelThree.gltf";
 import Video from "../components/video";
 import videoTwo from "../assets/videos/VideoTwo.mp4";
+import Modal from "./modal";
 
 const loadGTLF = (path) => {
   return new Promise((resolve, reject) => {
@@ -17,18 +17,17 @@ const loadGTLF = (path) => {
   });
 };
 
-const Box = () => {
-  const containerRef = useRef(null);
-  const [scanningState, setScanning] = useState("yes");
+const PhaseTwo = () => {
+  const containerId = "container2";
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     async function start() {
       const mindarThree = new MindARThree({
-        container: containerRef.current,
+        container: document.getElementById(containerId),
         imageTargetSrc: target,
         uiScanning: "no",
       });
-
       const { renderer, scene, camera } = mindarThree;
 
       const pointLight = new THREE.PointLight(0xffffff);
@@ -38,12 +37,39 @@ const Box = () => {
       scene.add(pointLight, ambientLight, directionalLight);
 
       const gltf = await loadGTLF(cell);
-      gltf.scene.scale.set(0.2, 0.2, 0.2);
-      gltf.scene.position.set(0, 0, 0);
+      gltf.scene.scale.set(0.05, 0.05, 0.05);
+      gltf.scene.position.set(0, 0.2, 0);
       gltf.scene.userData.clickable = true;
 
       const anchor = mindarThree.addAnchor(0);
       anchor.group.add(gltf.scene);
+
+      anchor.onTargetFound = () => {
+        //för att registerara event handeling
+        document.body.addEventListener("click", (event) => {
+          const mouse = new THREE.Vector2();
+          mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+          mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+          const raycaster = new THREE.Raycaster();
+          raycaster.setFromCamera(mouse, camera);
+          const intersects = raycaster.intersectObjects(scene.children, true);
+
+          if (intersects.length > 0) {
+            let o = intersects[0].object;
+            while (o.parent && !o.userData.clickable) {
+              o = o.parent;
+              if (o.userData.clickable) {
+                if (o === gltf.scene) {
+                  setShow(true);
+                }
+              }
+            }
+          }
+        });
+      };
+
+      anchor.onTargetLost = () => {};
 
       mindarThree.start();
       renderer.setAnimationLoop(() => {
@@ -51,20 +77,27 @@ const Box = () => {
       });
 
       return () => {
-        console.log("tjena");
         renderer.setAnimationLoop(null);
         mindarThree.stop();
       };
     }
     start();
-  }, [scanningState]);
+  }, []);
 
   return (
-    <div style={{ width: "100%", height: "100%" }} ref={containerRef}>
-      {/* <Video video={videoTwo} /> */}
-      <div>PHASE TWO</div>
+    <div id={containerId}>
+      <Video video={videoTwo} />
+      <div className="fas-h1">FAS 3: EN NY TYP AV CELL</div>
+      <Modal title="Blobb" onClose={() => setShow(false)} show={show}>
+        <p>
+          Loremipsum.
+          <br />
+          <br />
+          Lorum ipsum.
+        </p>
+      </Modal>
     </div>
   );
 };
 
-export default Box;
+export default PhaseTwo;

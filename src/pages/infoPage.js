@@ -14,7 +14,7 @@ const Infopage = () => {
         <h1 className="startpage-h1">THE CELL</h1>
         <hr className="startpage-hr" />
       </section>
-      <div className="startpage-p">
+      <div className="startpage-p animate__animated animate__fadeInLeft">
         Välkommen till din cell!
         <br />
         <br />
@@ -28,13 +28,13 @@ const Infopage = () => {
         <br />
         <br />
         Tryck på pilen för att starta din cell.
+        <button
+          className="start-btn"
+          type="submit"
+          id="startButton"
+          onClick={handleClick}
+        ></button>
       </div>
-      <button
-        className="start-btn"
-        type="submit"
-        id="startButton"
-        onClick={handleClick}
-      ></button>
     </div>
   );
 };

@@ -41,25 +41,27 @@ const LogIn = () => {
         const errorCode = error.code;
         const errorMessage = error.message;
         setErrorMessage(errorMessage);
+        alert(
+          "Användaren verkar inte finnas! Testa att registrera en ny användare istället"
+        );
       });
   };
 
   return (
-    <form className="form" onSubmit={handleSubmit}>
-      <div>
+    <form onSubmit={handleSubmit}>
+      <div className="logins">
         <input
-          className="input-field"
+          className="input-field animate__animated animate__fadeInLeft"
+          placeholder="Logga in med din mail"
           type="text"
           id="nameInput"
           ref={nameInputRef}
         />
-        <button className="login-btn" type="submit"></button>
+        <button
+          className="login-btn animate__animated animate__fadeInLeft"
+          type="submit"
+        ></button>
       </div>
-      {/* <div>
-        <label htmlFor="password">Password:</label>
-        <input type="password" id="password" ref={passwordInputRef} />
-      </div> */}
-      {errorMessage && <div>{errorMessage}</div>}
     </form>
   );
 };

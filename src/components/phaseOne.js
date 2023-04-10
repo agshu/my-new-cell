@@ -5,9 +5,9 @@ import * as THREE from "three";
 import target from "../assets/target2.mind";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import cell from "../assets/models/modelTwo.gltf";
+import Modal from "./modal";
 import Video from "../components/video";
 import videoOne from "../assets/videos/VideoOneMitosis.mp4";
-import Modal from "./modal";
 
 const loadGTLF = (path) => {
   return new Promise((resolve, reject) => {
@@ -18,11 +18,13 @@ const loadGTLF = (path) => {
   });
 };
 
-const Box = () => {
-  const containerRef = useRef(null);
-  const containerId = "container2";
-  const [scanningState, setScanning] = useState("yes");
+const PhaseOne = () => {
+  //const containerRef = useRef(null);
+  const containerId = "container1";
+  //const [showText, setShowText] = useState(false); // on click text in model
   const [show, setShow] = useState(false);
+  //const [celly, setCelly] = useState(cell);
+  //const [targetFound, setTargetFound] = useState(false);
 
   useEffect(() => {
     async function start() {
@@ -31,8 +33,7 @@ const Box = () => {
         imageTargetSrc: target,
         uiScanning: "no",
       });
-
-      console.log(document.getElementById(containerId));
+      //console.log(document.getElementById(containerId));
       const { renderer, scene, camera } = mindarThree;
 
       const pointLight = new THREE.PointLight(0xffffff);
@@ -42,35 +43,39 @@ const Box = () => {
       scene.add(pointLight, ambientLight, directionalLight);
 
       const gltf = await loadGTLF(cell);
-      //gltf.scene.scale.set(0.2, 0.2, 0.2);
-      //gltf.scene.position.set(0, 0, 0);
+      gltf.scene.scale.set(0.1, 0.1, 0.1);
+      gltf.scene.position.set(0, 0.2, 0);
       gltf.scene.userData.clickable = true;
 
       const anchor = mindarThree.addAnchor(0);
       anchor.group.add(gltf.scene);
 
-      //för att registerara event handeling
-      document.body.addEventListener("click", (event) => {
-        const mouse = new THREE.Vector2();
-        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+      anchor.onTargetFound = () => {
+        //för att registerara event handeling
+        document.body.addEventListener("click", (event) => {
+          const mouse = new THREE.Vector2();
+          mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+          mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-        const raycaster = new THREE.Raycaster();
-        raycaster.setFromCamera(mouse, camera);
-        const intersects = raycaster.intersectObjects(scene.children, true);
+          const raycaster = new THREE.Raycaster();
+          raycaster.setFromCamera(mouse, camera);
+          const intersects = raycaster.intersectObjects(scene.children, true);
 
-        if (intersects.length > 0) {
-          let o = intersects[0].object;
-          while (o.parent && !o.userData.clickable) {
-            o = o.parent;
-            if (o.userData.clickable) {
-              if (o === gltf.scene) {
-                setShow(true);
+          if (intersects.length > 0) {
+            let o = intersects[0].object;
+            while (o.parent && !o.userData.clickable) {
+              o = o.parent;
+              if (o.userData.clickable) {
+                if (o === gltf.scene) {
+                  setShow(true);
+                }
               }
             }
           }
-        }
-      });
+        });
+      };
+
+      anchor.onTargetLost = () => {};
 
       mindarThree.start();
       renderer.setAnimationLoop(() => {
@@ -83,12 +88,12 @@ const Box = () => {
       };
     }
     start();
-  }, [scanningState]);
+  }, []);
 
   return (
     <div id={containerId}>
-      {/* <Video video={videoOne} /> */}
-      <div>PHASE ONE</div>
+      <Video video={videoOne} />
+      <div className="fas-h1">FAS 2: TVÅ STAMCELLER</div>
       <Modal
         title="Första celldelningen"
         onClose={() => setShow(false)}
@@ -106,8 +111,11 @@ const Box = () => {
           likadana ut.
         </p>
       </Modal>
+      {/* <div className={showText ? "info-text" : "hidden"}>
+        {showText && <div>A stem cell</div>}
+      </div> */}
     </div>
   );
 };
 
-export default Box;
+export default PhaseOne;
