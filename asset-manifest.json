@@ -1,12 +1,13 @@
 {
   "files": {
     "main.css": "/my-new-cell/static/css/main.74a73e17.css",
-    "main.js": "/my-new-cell/static/js/main.6bf6bfe5.js",
+    "main.js": "/my-new-cell/static/js/main.c22283cb.js",
     "static/media/rabbit.gltf": "/my-new-cell/static/media/rabbit.a1bd119b084ea6242b57.gltf",
     "static/media/stemcellWithParts.gltf": "/my-new-cell/static/media/stemcellWithParts.78153a666efc2cb93716.gltf",
     "static/media/VideoTwo.mp4": "/my-new-cell/static/media/VideoTwo.f6e62abf6a46ca085c60.mp4",
     "static/media/modelThree.gltf": "/my-new-cell/static/media/modelThree.bc222da0711a6cb16a77.gltf",
     "static/media/VideoOneMitosis.mp4": "/my-new-cell/static/media/VideoOneMitosis.3cb710418384983279bc.mp4",
+    "static/media/testmodel.glb": "/my-new-cell/static/media/testmodel.743872f060909d58476f.glb",
     "static/media/modelTwo.gltf": "/my-new-cell/static/media/modelTwo.6e8bf10785958b5c6fb7.gltf",
     "static/media/cellparts.png": "/my-new-cell/static/media/cellparts.9ba63128c42450201daf.png",
     "static/media/modelOne.gltf": "/my-new-cell/static/media/modelOne.46eff977d8a4ea804cc5.gltf",
@@ -16,10 +17,10 @@
     "static/media/arrow-light.svg": "/my-new-cell/static/media/arrow-light.421fa896b8ab749161ef.svg",
     "static/media/arrow.svg": "/my-new-cell/static/media/arrow.ccbe006223bd34fd4f4f.svg",
     "main.74a73e17.css.map": "/my-new-cell/static/css/main.74a73e17.css.map",
-    "main.6bf6bfe5.js.map": "/my-new-cell/static/js/main.6bf6bfe5.js.map"
+    "main.c22283cb.js.map": "/my-new-cell/static/js/main.c22283cb.js.map"
   },
   "entrypoints": [
     "static/css/main.74a73e17.css",
-    "static/js/main.6bf6bfe5.js"
+    "static/js/main.c22283cb.js"
   ]
 }
