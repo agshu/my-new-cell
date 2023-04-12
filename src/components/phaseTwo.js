@@ -4,9 +4,10 @@ import * as THREE from "three";
 import target from "../assets/target2.mind";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import cell from "../assets/models/modelThree.gltf";
-import Video from "../components/video";
-import videoTwo from "../assets/videos/VideoTwo.mp4";
+import { ref, update, child, get } from "firebase/database";
 import Modal from "./modal";
+import { useNavigate } from "react-router-dom";
+import { database, auth } from "../firebase";
 
 const loadGTLF = (path) => {
   return new Promise((resolve, reject) => {
@@ -17,16 +18,39 @@ const loadGTLF = (path) => {
   });
 };
 
-const PhaseTwo = () => {
+const PhaseTwo = (props) => {
   const containerId = "container2";
   const [show, setShow] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/video-three");
+  };
+
+  async function updateUserData(userId) {
+    const userRef = ref(database, "users/" + userId);
+    try {
+      await update(userRef, {
+        clickedButton: [
+          ...((await get(child(userRef, "clickedButton"))).val() || []),
+          "Phase two: " + Date(),
+        ],
+      });
+      console.log("Data added successfully!");
+    } catch (error) {
+      console.log("Error adding data:", error);
+    }
+  }
 
   useEffect(() => {
     async function start() {
       const mindarThree = new MindARThree({
         container: document.getElementById(containerId),
         imageTargetSrc: target,
-        uiScanning: "no",
+        filterMinCF: 0.001,
+        filterBeta: 0.01,
+        missTolerance: 1,
       });
       const { renderer, scene, camera } = mindarThree;
 
@@ -62,6 +86,7 @@ const PhaseTwo = () => {
               if (o.userData.clickable) {
                 if (o === gltf.scene) {
                   setShow(true);
+                  updateUserData(auth.currentUser.uid);
                 }
               }
             }
@@ -86,16 +111,36 @@ const PhaseTwo = () => {
 
   return (
     <div id={containerId}>
-      <Video video={videoTwo} />
-      <div className="fas-h1">FAS 3: EN NY TYP AV CELL</div>
-      <Modal title="Blobb" onClose={() => setShow(false)} show={show}>
+      <div className="fas-h1">FAS 3: NY TYP AV CELL</div>
+      <Modal
+        title="En ny typ av cell"
+        onClose={() => setShow(false)}
+        show={show}
+      >
         <p>
-          Loremipsum.
+          Wow, nu har det dykt upp en ny typ av cell! En stamcell delade sig och
+          cellen som bildades bestämde sig plötsligt för att använda en annan
+          del av DNA:t än vad stamcellerna gör. Beroende på var den är i blobben
+          så slår den på och av olika delar av DNA:t. Det kallas att den
+          specialiserar sig och innebär att den börjar arbeta på ett annat sätt
+          än stamcellerna.
           <br />
           <br />
-          Lorum ipsum.
+          Under de första veckorna av utvecklingen börjar stamcellerna att
+          specialisera sig och utvecklas till olika typer av celler. Vissa
+          celler blir till muskler, andra till blodceller och så vidare. På så
+          sätt bildas alla delar av kroppen gradvis.
+          <br />
+          <br />
+          Nu behöver vi bara fortsätta vänta på att resten av det här embryots
+          olika celler ska bildas.
         </p>
       </Modal>
+      {!props.time && props.next && (
+        <button className="video-btn" onClick={handleClick}>
+          Gå till nästa fas
+        </button>
+      )}
     </div>
   );
 };

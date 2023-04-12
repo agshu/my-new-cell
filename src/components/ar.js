@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import * as ReactDOM from "react-dom";
+import { useNavigate } from "react-router-dom";
 import { MindARThree } from "mind-ar/dist/mindar-image-three.prod.js";
 import * as THREE from "three";
 import target from "../assets/target2.mind";
@@ -15,8 +15,14 @@ const loadGTLF = (path) => {
   });
 };
 
-export default () => {
+export default (time) => {
+  console.log(time.time);
   const containerRef = useRef(null);
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/ar2");
+  };
 
   useEffect(() => {
     async function start() {
@@ -42,8 +48,8 @@ export default () => {
       scene.add(pointLight, ambientLight, directionalLight);
 
       const gltf = await loadGTLF(cell);
-      //gltf.scene.scale.set(0.2, 0.2, 0.2);
-      //gltf.scene.position.set(0, 0, 0);
+      gltf.scene.scale.set(0.2, 0.2, 0.2);
+      gltf.scene.position.set(0, 0, 0);
       gltf.scene.userData.clickable = true;
       anchor.group.add(gltf.scene);
 
@@ -61,6 +67,12 @@ export default () => {
   }, []);
 
   return (
-    <div style={{ width: "100%", height: "100%" }} ref={containerRef}></div>
+    <div style={{ width: "100vw", height: "100vh" }} ref={containerRef}>
+      {!time.time && (
+        <button className="video-btn" onClick={handleClick}>
+          OTHER PAGE
+        </button>
+      )}
+    </div>
   );
 };

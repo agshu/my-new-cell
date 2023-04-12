@@ -6,8 +6,9 @@ import target from "../assets/target2.mind";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import cell from "../assets/models/modelTwo.gltf";
 import Modal from "./modal";
-import Video from "../components/video";
-import videoOne from "../assets/videos/VideoOneMitosis.mp4";
+import { ref, update, child, get } from "firebase/database";
+import { useNavigate } from "react-router-dom";
+import { database, auth } from "../firebase";
 
 const loadGTLF = (path) => {
   return new Promise((resolve, reject) => {
@@ -18,20 +19,38 @@ const loadGTLF = (path) => {
   });
 };
 
-const PhaseOne = () => {
-  //const containerRef = useRef(null);
+const PhaseOne = (props) => {
   const containerId = "container1";
-  //const [showText, setShowText] = useState(false); // on click text in model
   const [show, setShow] = useState(false);
-  //const [celly, setCelly] = useState(cell);
-  //const [targetFound, setTargetFound] = useState(false);
+
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate("/video-two");
+  };
+
+  async function updateUserData(userId) {
+    const userRef = ref(database, "users/" + userId);
+    try {
+      await update(userRef, {
+        clickedButton: [
+          ...((await get(child(userRef, "clickedButton"))).val() || []),
+          "Phase one: " + Date(),
+        ],
+      });
+      console.log("Data added successfully!");
+    } catch (error) {
+      console.log("Error adding data:", error);
+    }
+  }
 
   useEffect(() => {
     async function start() {
       const mindarThree = new MindARThree({
         container: document.getElementById(containerId),
         imageTargetSrc: target,
-        uiScanning: "no",
+        filterMinCF: 0.001,
+        filterBeta: 0.01,
+        missTolerance: 1,
       });
       //console.log(document.getElementById(containerId));
       const { renderer, scene, camera } = mindarThree;
@@ -68,6 +87,7 @@ const PhaseOne = () => {
               if (o.userData.clickable) {
                 if (o === gltf.scene) {
                   setShow(true);
+                  updateUserData(auth.currentUser.uid);
                 }
               }
             }
@@ -79,6 +99,7 @@ const PhaseOne = () => {
 
       mindarThree.start();
       renderer.setAnimationLoop(() => {
+        gltf.scene.rotation.x += 0.01;
         renderer.render(scene, camera);
       });
 
@@ -92,7 +113,7 @@ const PhaseOne = () => {
 
   return (
     <div id={containerId}>
-      <Video video={videoOne} />
+      {/* <Video video={videoOne} /> */}
       <div className="fas-h1">FAS 2: TVÅ STAMCELLER</div>
       <Modal
         title="Första celldelningen"
@@ -100,20 +121,26 @@ const PhaseOne = () => {
         show={show}
       >
         <p>
-          Nu har din stamcell delat sig för första gången! De två cellerna
-          sitter tätt ihop och kommer fortsätta dela på sig tills de blir en
-          blobb av celler.
+          Nu har din stamcell delat sig för första gången. De två cellerna
+          sitter tätt ihop och kommer fortsätta dela på sig tills de blir fler,
+          och liknar en blobb av gelé.
           <br />
           <br />
-          Innehållet i de två cellerna som du ser nu är identiskt. Det är samma
-          beståndsdelar och samma DNA! Men när stamcellerna delat på sig ännu
-          mer kommer de börja specialisera sig, och då ser de inte längre
-          likadana ut.
+          De två cellerna som du ser är fortfarande stamceller. Och de är
+          faktiskt helt identiska. De innehåller likadana beståndsdelar och
+          likadant DNA. Men när stamcellerna delat på sig ännu mer kommer de
+          börja specialisera sig, och då ser de inte längre likadana ut, och de
+          börjar arbeta på olika sätt. Det är som att de skaffar sig yrken!
         </p>
       </Modal>
       {/* <div className={showText ? "info-text" : "hidden"}>
         {showText && <div>A stem cell</div>}
       </div> */}
+      {!props.time && props.next && (
+        <button className="video-btn" onClick={handleClick}>
+          Gå till nästa fas
+        </button>
+      )}
     </div>
   );
 };

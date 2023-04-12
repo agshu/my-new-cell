@@ -18,7 +18,7 @@ body {
 }
 
 h1 {
-  font-size: 24px;
+  font-size: 1.5rem;
 }
 
 .startpage {
@@ -82,7 +82,6 @@ h1 {
 }
 
 .input-field {
-  font-size: 24px;
   font-style: italic;
   color: #494949;
   background-color: transparent;
@@ -92,9 +91,9 @@ h1 {
 }
 
 .startpage-p {
-  font-size: 18px;
+  max-height: 60%;
+  overflow: scroll;
   margin-top: 2rem;
-  height: 60%;
   width: 75%;
   background-color: #494949;
   color: white;
@@ -215,8 +214,23 @@ h1 {
 .video-btn {
   font-family: Nunito;
   position: absolute;
+  top: 15%;
+  margin-left: 1rem;
+  z-index: 3;
+  background-color: #5562d7;
+  color: white;
+  border-style: none;
+  padding: 10px 20px 10px 20px;
+  font-weight: bold;
+  font-size: 24px;
+  border-radius: 15px;
+}
+
+.real-video-btn {
+  font-family: Nunito;
+  position: absolute;
   align-self: center;
-  top: 30%;
+  top: 40%;
   z-index: 3;
   background-color: white;
   border-style: none;
@@ -319,13 +333,15 @@ h1 {
 }
 
 .modal-body {
+  max-height: 70vh;
+  overflow: scroll;
   padding: 0rem 0.5rem 0rem 0.5rem;
   border-top: 1px solid black;
   border-bottom: 1px solid black;
 }
 
 .modal-img {
-  width: 70%;
+  width: 100%;
 }
 
 .button-modal {
@@ -338,9 +354,65 @@ h1 {
   z-index: 1000 !important;
 }
 
+.modal-secondary-btn {
+  all: unset;
+  border: solid 2px #494949;
+  font-weight: bold;
+  color: Black;
+  background-color: White;
+  padding: 10px 20px 10px 20px;
+  font-size: 16px;
+  border-radius: 15px;
+  z-index: 1000 !important;
+  align-self: flex-end !important;
+}
+
 .fas-h1 {
   color: white;
   margin: 1rem;
   font-size: 24px;
   font-weight: bold;
 }
+
+/* @media only screen and (max-width: 600px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+  .startpage-h1 {
+    font-size: 2.5rem;
+  }
+  .login-btn {
+    margin-top: 1.5rem;
+    width: 3.5rem;
+    height: 2.5rem;
+  }
+  .startpage-p {
+    font-size: 1.5rem;
+  }
+  .video-btn {
+    font-size: 1.5rem;
+  }
+  .modal-title {
+    font-size: 1.5rem;
+    margin: 0;
+  }
+  .button-modal {
+    font-weight: bold;
+    font-size: 16px;
+  }
+  .modal-body {
+    font-size: 1.5rem;
+  }
+
+  .button-modal {
+    font-size: 1.5rem;
+  }
+
+  .modal-secondary-btn {
+    font-size: 1.5rem;
+  }
+
+  .fas-h1 {
+    font-size: 2.5rem;
+  } */
+/* } */

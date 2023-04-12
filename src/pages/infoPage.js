@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const Infopage = () => {
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate("/ar");
+    navigate("/zero-phase");
   };
 
   return (
@@ -19,12 +19,16 @@ const Infopage = () => {
         <br />
         <br />
         Din cell kommer växa under 48 timmar och du får följa varje steg. När
-        det är dags för nästa steg får du ett meddelande. Under resans gång
-        kommer du lära dig massa nytt och spännande om cellens livscykel.
+        cellen är på väg att utvecklas får du ett meddelande till den mail som
+        du loggat in med. Under resans gång kommer du lära dig massa nytt och
+        spännande om celler.
         <br />
         <br />
-        Under resans gång kommer du lära dig massa nytt och spännande om cellens
-        livscykel.
+        Det är kul att uppleva den här appen tillsammans – både barn och vuxna!{" "}
+        <b>
+          Glöm inte att testa att trycka på objekten ni ser i AR. Då kanske ni
+          får reda på något mer!
+        </b>
         <br />
         <br />
         Tryck på pilen för att starta din cell.

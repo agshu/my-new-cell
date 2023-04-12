@@ -41,10 +41,10 @@ const Register = () => {
       // redirect to info.html after data is inserted into the database
       //window.location.href = "/info.html";
       alert(
-        "Användare skapad! Testa att logga in på raden under med samma mail."
+        "Användare skapad! Ladda om sidan och logga in med mailadressen på raden över."
       );
     } catch (error) {
-      alert(error.message);
+      alert("Inte en giltig mailadress, skrev du rätt?");
     }
   }
   return (

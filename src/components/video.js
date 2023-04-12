@@ -1,18 +1,22 @@
 import React, { useState } from "react";
-//import video from "../assets/videos/VideoTwo.mp4";
+import { useNavigate } from "react-router-dom";
 
-//TODO: skicka in video som prompt
-
-const Video = (video) => {
+const Video = (props) => {
   const [clicked, setClicked] = useState(false);
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(props.route);
+  };
 
   function playPause() {
     const myVideo = document.getElementById("video1");
     const videoContainer = document.getElementById("video-cont");
     myVideo.play();
-    myVideo.onended = function () {
-      myVideo.remove();
-      videoContainer.remove();
+    myVideo.onended = async function () {
+      // myVideo.remove();
+      // await videoContainer.remove();
+      handleClick();
     };
     setClicked(true);
   }
@@ -21,18 +25,17 @@ const Video = (video) => {
     <div className="video-comp" id="video-cont">
       <button
         id="video-btn"
-        className={clicked ? "hidden" : "video-btn"}
+        className={clicked ? "hidden" : "real-video-btn"}
         onClick={playPause}
       >
         PRESS TO EVOLVE
       </button>
       <video
         id="video1"
-        src={video.video}
+        src={props.video}
         width="100%"
         height="100%"
         muted
-        controls
       ></video>
     </div>
   );
